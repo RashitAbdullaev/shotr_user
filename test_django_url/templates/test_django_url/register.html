@@ -1,0 +1,14 @@
+{% extends 'test_django_url/layout/basic.html' %}
+{% block content%}
+<div class="container">
+    <h5>Регистрация</h5>
+    <div class="col-4">
+        <form method="post">
+            {% csrf_token %}
+            {{form}}
+            <button type="submit" class="btn btn-primary mt-4" > Добавить</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

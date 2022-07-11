@@ -1,0 +1,61 @@
+{% extends 'test_django_url/layout/basic.html' %}
+{% load static %}
+{% block content%}
+<div class="container">
+    <h5>Сокращение url</h5>
+        <div class="d-flex">
+             <input class="form-control past_Url" id="floatingInput" placeholder="Вставьте Url">
+             <button type="button" class="btn btn-outline-success btn-sm " id="add_json">Сократить</button>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            {{form}}
+            <button type="submit" class="btn btn-primary mt-4" > Сохранить</button>
+        </form>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+
+  $(document).ready(function () {
+        $('#add_json').click(function () {
+
+            const requestURL = "http://127.0.0.1:8000/add_json"
+            const headers = {
+                'Content-type': 'application/json',
+            }
+
+            const product = {
+                url: document.querySelector('#floatingInput').value
+            }
+
+            function sentRequest(method, url, product) {
+                return fetch(url, {
+                    method: method,
+                    body: JSON.stringify(product),
+                    headers: headers,
+            })
+            .
+                then(response => {
+                    return response.json()
+                })
+            }
+
+            sentRequest('POST', requestURL, product)
+
+                .then(data => {
+                    console.log(data)
+                    document.getElementById('id_url').value = data.url
+
+                })
+        })
+
+    })
+
+</script>
+
+{% endblock javascript %}
